@@ -24,7 +24,20 @@ function checksExistsUserAccount(request, response, next) {
 }
 
 function checksCreateTodosUserAvailability(request, response, next) {
-  // Complete aqui
+  const { user } = request;
+  const todosLength = user.todos.length;
+
+  if (user.pro) {
+    return next();
+  }
+  else {
+    if (todosLength < 10){
+      return next();
+    }
+    else {
+      return response.status(403).json({ error: "Maximum todos reached!"});
+    }
+  }
 }
 
 function checksTodoExists(request, response, next) {
